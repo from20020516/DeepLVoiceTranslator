@@ -1,19 +1,30 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { FC, useEffect, useState } from 'react'
+import { Text, View } from 'react-native'
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
-export default function App() {
+const App: FC = () => {
+  const { transcript, resetTranscript } = useSpeechRecognition()
+  const [texts, setTexts] = useState<string[]>([])
+
+  useEffect(() => {
+    SpeechRecognition.startListening({ language: 'ja-JP', continuous: true })
+    return () => SpeechRecognition.stopListening()
+  })
+
+  useEffect(() => {
+    setTexts(transcript.split(' '))
+  },[transcript])
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
+    SpeechRecognition.browserSupportsSpeechRecognition() ? (<View>
+      <button onClick={() => resetTranscript()}>Reset</button>
+      {
+        texts.map((str, index) => (
+          <Text key={index}>{index}: {str}</Text>
+        ))
+      }
+    </View>) : (<View>browser doesn't support Web Speech API.</View>)
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
