@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
+import { Button, Text, View } from 'react-native'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
 const App: FC = () => {
@@ -17,7 +17,7 @@ const App: FC = () => {
 
   return (
     SpeechRecognition.browserSupportsSpeechRecognition() ? (<View>
-      <button onClick={() => resetTranscript()}>Reset</button>
+      <Button onPress={() => resetTranscript()} title='Reset' />
       {
         texts.map((str, index) => (
           <Text key={index}>{index}: {str}</Text>
