@@ -63,7 +63,6 @@ const App: FC = () => {
       type: 'target'
     }))).data))()
     getApiUsage()
-    startListening()
     return () => SpeechRecognition.abortListening()
   }, [])
 
