@@ -10,6 +10,7 @@
   "dependencies": {
     "aws-amplify": "^3.3.14",
     "aws-amplify-react-native": "^4.3.0",
+    "babel-plugin-dotenv-import": "^2.1.0",
     "expo": "~40.0.0",
     "expo-splash-screen": "~0.8.0",
     "expo-updates": "~0.4.0",
