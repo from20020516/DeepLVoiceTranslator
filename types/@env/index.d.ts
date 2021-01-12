@@ -1,1 +1,1 @@
-export const DEEPL_AUTH_KEY: string
+export const auth_key: string

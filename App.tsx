@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Card, Text } from 'react-native-elements'
 import { Picker } from '@react-native-picker/picker'
-import { DEEPL_AUTH_KEY } from '@env'
+import { auth_key } from '@env'
 import axios from 'axios'
 import moment from 'moment'
 import querystring from 'querystring'
@@ -24,21 +24,17 @@ const App: FC = () => {
         if (command.length) {
           try {
             const translate = await axios.post<Translation>('https://api.deepl.com/v2/translate', querystring.stringify({
-              auth_key: DEEPL_AUTH_KEY,
+              auth_key,
               text: command,
               target_lang: language.target.value,
             }))
-            console.log(command, JSON.stringify(translate.data.translations))
-
             setTranslation([{
               time: moment().format('HH:mm:ss'),
               timestamp: moment().unix(),
               source: command,
               target: translate.data.translations[0].text
             }, ...translation])
-
             getApiUsage()
-
           } catch (error) {
             console.error(error)
           }
@@ -54,12 +50,12 @@ const App: FC = () => {
   const [language, setLanguage] = useState<Language>({ source: { value: 'JA', index: 6 }, target: { value: 'EN-US', index: 2 } })
   const [translation, setTranslation] = useState<TranslationResult[]>([])
 
-  const getApiUsage = async () => setApiUsage((await axios.get<ApiUsage>(`https://api.deepl.com/v2/usage?auth_key=${DEEPL_AUTH_KEY}`)).data)
+  const getApiUsage = async () => setApiUsage((await axios.post<ApiUsage>('https://api.deepl.com/v2/usage', querystring.stringify({ auth_key }))).data)
   const startListening = () => SpeechRecognition.startListening({ language: language.source.value.toString(), continuous: true })
 
   useEffect(() => {
     (async () => setLanguages((await axios.post(`https://api.deepl.com/v2/languages`, querystring.stringify({
-      auth_key: DEEPL_AUTH_KEY,
+      auth_key,
       type: 'target'
     }))).data))()
     getApiUsage()
