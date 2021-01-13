@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import 'babel-polyfill';
-import App from './App';
+import App from './components/App';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in the Expo client or in a native build,

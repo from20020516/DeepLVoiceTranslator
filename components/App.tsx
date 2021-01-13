@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { Card, Text } from 'react-native-elements'
 import { Picker } from '@react-native-picker/picker'
 import { auth_key } from '@env'
@@ -7,6 +7,7 @@ import axios from 'axios'
 import moment from 'moment'
 import querystring from 'querystring'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+import Translation from './Translation'
 
 const styles = StyleSheet.create({
   container: {
@@ -96,17 +97,12 @@ const App: FC = () => {
         </View>
       </View>
       <Card containerStyle={{ width: '80%' }}>
-        <Card.Title style={{ height: 20 }}>{interimTranscript || '…'}</Card.Title>
+        <Card.Title style={{ height: 20 }}>{interimTranscript || <ActivityIndicator />}</Card.Title>
         <Card.FeaturedSubtitle style={{ textAlign: 'right', color: 'darkgrey' }}>
           {apiUsage?.character_count} / {apiUsage?.character_limit} ({(apiUsage?.character_count / apiUsage?.character_limit).toLocaleString('en-US', { style: 'percent' })})
         </Card.FeaturedSubtitle>
-        {translation.map((data, index) => (
-          <View key={index}>
-            <Text style={{ fontWeight: 'bold', paddingBottom: 2 }}>[ {data.time} ]</Text>
-            <Text>{data.source}</Text>
-            <Text style={{ fontStyle: 'italic' }}>{data.target}</Text>
-            <Card.Divider style={{ marginTop: 15 }} />
-          </View>
+        {translation.map((data) => (
+          <Translation key={data.timestamp} data={data} />
         ))}
       </Card>
     </View>
