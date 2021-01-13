@@ -1,4 +1,4 @@
-package com.webspeechapisampleamplify;
+package com.webspeechapiamplify;
 
 import android.os.Bundle;
 

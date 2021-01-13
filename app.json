@@ -1,9 +1,9 @@
 {
-  "name": "WebSpeechAPI-Sample-Amplify",
-  "displayName": "WebSpeechAPI-Sample-Amplify",
+  "name": "WebSpeechAPI-Amplify",
+  "displayName": "WebSpeechAPI-Amplify",
   "expo": {
-    "name": "WebSpeechAPI-Sample-Amplify",
-    "slug": "WebSpeechAPI-Sample-Amplify",
+    "name": "WebSpeechAPI-Amplify",
+    "slug": "WebSpeechAPI-Amplify",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"

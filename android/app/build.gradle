@@ -132,7 +132,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.webspeechapisampleamplify"
+        applicationId "com.webspeechapiamplify"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
