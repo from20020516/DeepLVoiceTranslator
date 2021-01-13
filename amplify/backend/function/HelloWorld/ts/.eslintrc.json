@@ -1,0 +1,43 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": ["airbnb-typescript", "plugin:prettier/recommended"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["prettier", "@typescript-eslint"],
+  "rules": {
+    /**
+     * @description rules of eslint official
+     */
+    "import/prefer-default-export": "off", // Allow single Named-export
+
+    /**
+     * @description rules of @typescript-eslint
+     */
+    "@typescript-eslint/type-annotation-spacing": ["warn"],
+    "indent": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+    "@typescript-eslint/no-floating-promises": ["warn"],
+
+    /**
+     * @description rules of eslint-plugin-import
+     */
+    "import/no-unresolved": "off",
+
+    /**
+     * @description rules of prettier
+     */
+    "prettier/prettier": "warn"
+  }
+}

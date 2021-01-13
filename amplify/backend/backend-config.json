@@ -1,1 +1,9 @@
-{}
+{
+  "function": {
+    "HelloWorld": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  }
+}
