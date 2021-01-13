@@ -46,12 +46,14 @@ const translator = async ({ text, target, source }: Body): Promise<string> => {
     }))).data.translations[0].text
 }
 
+const headers = { 'Access-Control-Allow-Origin': '*' }
+
 export const handler: APIGatewayProxyHandler = async (event) => {
   try {
     return event.body
-      ? { statusCode: 200, body: await translator(JSON.parse(event.body)) }
-      : { statusCode: 400, body: 'Missing Payload.' }
+      ? { statusCode: 200, headers, body: await translator(JSON.parse(event.body)) }
+      : { statusCode: 400, headers, body: 'Missing Payload.' }
   } catch (error) {
-    return { statusCode: 500, body: JSON.stringify(error) }
+    return { statusCode: 500, headers, body: JSON.stringify(error) }
   }
 }
