@@ -28,3 +28,13 @@ interface TranslationResult {
     source: string
     target: string
 }
+interface KoTranslationResult {
+    message: {
+        '@type': string
+        '@service': string
+        '@version': string
+        result: {
+            translatedText: string
+        }
+    }
+}

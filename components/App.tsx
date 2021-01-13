@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { Card, Text } from 'react-native-elements'
 import { Picker } from '@react-native-picker/picker'
-import { auth_key } from '@env'
+import { auth_key, naver_client_id, naver_client_secret } from '@env'
 import axios from 'axios'
 import moment from 'moment'
 import querystring from 'querystring'
@@ -43,18 +43,37 @@ const App: FC = () => {
         callback: async (command) => {
           if (command.length) {
             try {
-              const translate = await axios.post<Translation>('https://api.deepl.com/v2/translate', querystring.stringify({
-                auth_key,
-                text: command,
-                target_lang: language.target.value,
-              }))
-              setTranslation([{
-                time: moment().format('HH:mm:ss'),
-                timestamp: moment().unix(),
-                source: command,
-                target: translate.data.translations[0].text
-              }, ...translation])
-              getApiUsage()
+              if (language.source.value === 'KO' || language.target.value === 'KO') {
+                const koTranslate = await axios.post<KoTranslationResult>('https://openapi.naver.com/v1/papago/n2mt', querystring.stringify({
+                  source: String(language.source.value).toLowerCase(),
+                  target: String(language.target.value).toLowerCase(),
+                  text: command
+                }), {
+                  headers: {
+                    'X-Naver-Client-Id': naver_client_id,
+                    'X-Naver-Client-Secret': naver_client_secret
+                  }
+                })
+                setTranslation([{
+                  time: moment().format('HH:mm:ss'),
+                  timestamp: moment().unix(),
+                  source: command,
+                  target: koTranslate.data.message.result.translatedText
+                }, ...translation])
+              } else {
+                const translate = await axios.post<Translation>('https://api.deepl.com/v2/translate', querystring.stringify({
+                  auth_key,
+                  text: command,
+                  target_lang: language.target.value,
+                }))
+                setTranslation([{
+                  time: moment().format('HH:mm:ss'),
+                  timestamp: moment().unix(),
+                  source: command,
+                  target: translate.data.translations[0].text
+                }, ...translation])
+                getApiUsage()
+              }
             } catch (error) {
               console.error(error)
             }
@@ -72,10 +91,6 @@ const App: FC = () => {
   const startListening = () => SpeechRecognition.startListening({ language: language.source.value.toString(), continuous: true })
 
   useEffect(() => {
-    (async () => setLanguages((await axios.post(`https://api.deepl.com/v2/languages`, querystring.stringify({
-      auth_key,
-      type: 'target'
-    }))).data))()
     getApiUsage()
     return () => SpeechRecognition.abortListening()
   }, [])
