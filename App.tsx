@@ -6,7 +6,7 @@ import { auth_key } from '@env'
 import axios from 'axios'
 import moment from 'moment'
 import querystring from 'querystring'
-import SpeechRecognition, { useSpeechRecognition, Command } from 'react-speech-recognition'
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
 const styles = StyleSheet.create({
   container: {
@@ -17,34 +17,34 @@ const styles = StyleSheet.create({
 })
 
 const App: FC = () => {
-  const commands: Command[] = [
-    {
-      command: '*',
-      callback: async (command) => {
-        if (command.length) {
-          try {
-            const translate = await axios.post<Translation>('https://api.deepl.com/v2/translate', querystring.stringify({
-              auth_key,
-              text: command,
-              target_lang: language.target.value,
-            }))
-            setTranslation([{
-              time: moment().format('HH:mm:ss'),
-              timestamp: moment().unix(),
-              source: command,
-              target: translate.data.translations[0].text
-            }, ...translation])
-            getApiUsage()
-          } catch (error) {
-            console.error(error)
+  const { interimTranscript } = useSpeechRecognition({
+    commands: [
+      {
+        command: '*',
+        callback: async (command) => {
+          if (command.length) {
+            try {
+              const translate = await axios.post<Translation>('https://api.deepl.com/v2/translate', querystring.stringify({
+                auth_key,
+                text: command,
+                target_lang: language.target.value,
+              }))
+              setTranslation([{
+                time: moment().format('HH:mm:ss'),
+                timestamp: moment().unix(),
+                source: command,
+                target: translate.data.translations[0].text
+              }, ...translation])
+              getApiUsage()
+            } catch (error) {
+              console.error(error)
+            }
           }
-        }
+        },
+        matchInterim: false
       },
-      matchInterim: false
-    },
-  ]
-
-  const { interimTranscript } = useSpeechRecognition({ commands })
+    ]
+  })
   const [apiUsage, setApiUsage] = useState<ApiUsage>({ character_count: 0, character_limit: 0 })
   const [languages, setLanguages] = useState<Languages[]>([])
   const [language, setLanguage] = useState<Language>({ source: { value: 'JA', index: 6 }, target: { value: 'EN-US', index: 2 } })

@@ -3,7 +3,7 @@
 // Definitions by: OleksandrYehorov <https://github.com/OleksandrYehorov>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-export interface Command {
+interface Command {
     command: string | string[] | RegExp;
     callback: (...args: any[]) => unknown;
     isFuzzyMatch?: boolean;
