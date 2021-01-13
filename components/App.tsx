@@ -17,6 +17,24 @@ const styles = StyleSheet.create({
   },
 })
 
+const languages: Languages[] = [
+  { language: "DE", name: "German" },
+  { language: "EN-GB", name: "English (British)" },
+  { language: "EN-US", name: "English (American)" },
+  { language: "ES", name: "Spanish" },
+  { language: "FR", name: "French" },
+  { language: "IT", name: "Italian" },
+  { language: "JA", name: "Japanese" },
+  { language: "NL", name: "Dutch" },
+  { language: "PL", name: "Polish" },
+  { language: "PT-PT", name: "Portuguese (European)" },
+  { language: "PT-BR", name: "Portuguese (Brazilian)" },
+  { language: "RU", name: "Russian" },
+  { language: "ZH", name: "Chinese" },
+  { language: "KO", name: "Korean" }
+]
+const initialLanguage = JSON.parse(localStorage.getItem('language') ?? '{"source":{"value":"JA","index":6},"target":{"value":"EN-US","index":2}}')
+
 const App: FC = () => {
   const { interimTranscript } = useSpeechRecognition({
     commands: [
@@ -47,8 +65,7 @@ const App: FC = () => {
     ]
   })
   const [apiUsage, setApiUsage] = useState<ApiUsage>({ character_count: 0, character_limit: 0 })
-  const [languages, setLanguages] = useState<Languages[]>([])
-  const [language, setLanguage] = useState<Language>({ source: { value: 'JA', index: 6 }, target: { value: 'EN-US', index: 2 } })
+  const [language, setLanguage] = useState<Language>(initialLanguage)
   const [translation, setTranslation] = useState<TranslationResult[]>([])
 
   const getApiUsage = async () => setApiUsage((await axios.post<ApiUsage>('https://api.deepl.com/v2/usage', querystring.stringify({ auth_key }))).data)
@@ -65,6 +82,7 @@ const App: FC = () => {
 
   useEffect(() => {
     SpeechRecognition.abortListening()
+    localStorage.setItem('language', JSON.stringify(language))
     const timeoutId = setTimeout(() => startListening(), 500)
     return () => clearTimeout(timeoutId)
   }, [language])
