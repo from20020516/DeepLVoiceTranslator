@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Badge, Card, Text } from 'react-native-elements'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-const Translation = memo((props: { data: TranslationResult }) => {
+const Translation = memo((props: { data: ITranslation }) => {
   const [copied, setCopied] = useState<boolean>(false)
 
   useEffect(() => {

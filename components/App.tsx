@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const languages: Languages[] = [
+const languages: ILanguages[] = [
   { language: "DE", name: "German" },
   { language: "EN", name: "English" },
   { language: "ES", name: "Spanish" },
@@ -57,7 +57,7 @@ const App: FC = () => {
     ]
   })
   const [language, setLanguage] = useState<number[]>(initialLanguage)
-  const [translation, setTranslation] = useState<TranslationResult[]>([])
+  const [translation, setTranslation] = useState<ITranslation[]>([])
 
   const startListening = () => SpeechRecognition.startListening({ language: languages[language[0]].language, continuous: true })
 
