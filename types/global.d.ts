@@ -5,6 +5,7 @@ interface ILanguages {
 interface ITranslation {
     time: string
     timestamp: number
+    text: string
     source: string
     target: string
 }

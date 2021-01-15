@@ -2,8 +2,6 @@ import React, { FC, useEffect, useState } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { Button, Card, Text } from 'react-native-elements'
 import { Picker } from '@react-native-picker/picker'
-import { endpoint } from '@env'
-import axios from 'axios'
 import moment from 'moment'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import Translation from './Translation'
@@ -39,16 +37,12 @@ const App: FC = () => {
         command: '*',
         callback: async (command) => {
           if (command.length) {
-            const translate = await axios.post<string>(`${endpoint}/translate`, {
-              text: command,
-              source: languages[language[0]].language,
-              target: languages[language[1]].language
-            })
             setTranslation([{
               time: moment().format('HH:mm:ss'),
               timestamp: moment().unix(),
-              source: command,
-              target: translate.data
+              text: command,
+              source: languages[language[0]].language,
+              target: languages[language[1]].language
             }, ...translation])
           }
         },
