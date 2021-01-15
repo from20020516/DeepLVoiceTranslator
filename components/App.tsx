@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import { Card, Text } from 'react-native-elements'
+import { Button, Card, Text } from 'react-native-elements'
 import { Picker } from '@react-native-picker/picker'
 import { endpoint } from '@env'
 import axios from 'axios'
@@ -30,7 +30,7 @@ const languages: Languages[] = [
   { language: "ZH", name: "Chinese" },
   { language: "KO", name: "Korean" }
 ]
-const initialLanguage = JSON.parse(localStorage.getItem('language') ?? '{"source":{"value":"JA","index":6},"target":{"value":"EN","index":1}}')
+const initialLanguage = JSON.parse(localStorage.getItem('language') ?? '[5,1]')
 
 const App: FC = () => {
   const { interimTranscript } = useSpeechRecognition({
@@ -41,8 +41,8 @@ const App: FC = () => {
           if (command.length) {
             const translate = await axios.post<string>(`${endpoint}/translate`, {
               text: command,
-              target: language.target.value,
-              source: language.source.value
+              source: languages[language[0]].language,
+              target: languages[language[1]].language
             })
             setTranslation([{
               time: moment().format('HH:mm:ss'),
@@ -56,10 +56,10 @@ const App: FC = () => {
       },
     ]
   })
-  const [language, setLanguage] = useState<Language>(initialLanguage)
+  const [language, setLanguage] = useState<number[]>(initialLanguage)
   const [translation, setTranslation] = useState<TranslationResult[]>([])
 
-  const startListening = () => SpeechRecognition.startListening({ language: language.source.value.toString(), continuous: true })
+  const startListening = () => SpeechRecognition.startListening({ language: languages[language[0]].language, continuous: true })
 
   useEffect(() => {
     return () => SpeechRecognition.abortListening()
@@ -72,8 +72,6 @@ const App: FC = () => {
     return () => clearTimeout(timeoutId)
   }, [language])
 
-  const languageHandler = ({ source, target }: Partial<Language>) => source && setLanguage({ ...language, source }) || target && setLanguage({ ...language, target })
-
   return (
     <View style={styles.container}>
       <Text h1>DeepL Translator</Text>
@@ -81,19 +79,20 @@ const App: FC = () => {
         <View style={{ alignItems: 'center' }}>
           <Text>Source Language:</Text>
           <Picker
-            selectedValue={language.source.value}
+            selectedValue={languages[language[0]].language}
             style={{ height: 20, width: 150 }}
-            onValueChange={(value, index) => languageHandler({ source: { value, index } })}
+            onValueChange={(value, index) => setLanguage([index, language[1]])}
           >
             {languages.map((data, index) => <Picker.Item key={index} label={data.name} value={data.language} />)}
           </Picker>
         </View>
+        <Button title="⇔" style={{ padding: 3 }} onPress={() => setLanguage(language.reverse().map((i) => i))} />
         <View style={{ alignItems: 'center' }}>
           <Text>Target Language:</Text>
           <Picker
-            selectedValue={language.target.value}
+            selectedValue={languages[language[1]].language}
             style={{ height: 20, width: 150 }}
-            onValueChange={(value, index) => languageHandler({ target: { value, index } })}
+            onValueChange={(value, index) => setLanguage([language[0], index])}
           >
             {languages.map((data, index) => <Picker.Item key={index} label={data.name} value={data.language} />)}
           </Picker>
