@@ -30,7 +30,7 @@ const languages: ILanguages[] = [
   { language: "ZH", name: "Chinese" },
   { language: "KO", name: "Korean" }
 ]
-const initialLanguage = JSON.parse(localStorage.getItem('language') ?? '[5,1]')
+const initialLanguage = JSON.parse(localStorage.getItem('ln') ?? '[5,1]')
 
 const App: FC = () => {
   const { interimTranscript } = useSpeechRecognition({
@@ -67,7 +67,7 @@ const App: FC = () => {
 
   useEffect(() => {
     SpeechRecognition.abortListening()
-    localStorage.setItem('language', JSON.stringify(language))
+    localStorage.setItem('ln', JSON.stringify(language))
     const timeoutId = setTimeout(() => startListening(), 500)
     return () => clearTimeout(timeoutId)
   }, [language])
