@@ -6,7 +6,6 @@
     "web": "expo start --web",
     "start": "react-native start",
     "test": "jest",
-    "amplify:Translate": "cd amplify/backend/function/Translate/src && npm install && npm run tsc && cd -",
     "amplify:Express": "cd amplify/backend/function/Express/src && npm install && npm run tsc && cd -"
   },
   "dependencies": {
