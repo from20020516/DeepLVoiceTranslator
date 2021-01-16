@@ -1,12 +1,29 @@
 import Express from 'express'
 import { json, urlencoded } from "body-parser"
+import { Strategy } from 'passport-twitter'
 import axios from 'axios'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import jwt from 'express-jwt'
+import passport from 'passport'
 import querystring from 'querystring'
+import session from 'express-session'
 
 dotenv.config()
+
 const app = Express()
+app.use(passport.initialize())
+app.use(session({ secret: 'keyboard cat' }))
+app.use(passport.session())
+
+passport.use(new Strategy({
+  consumerKey: process.env.twitter_consumer_key as string,
+  consumerSecret: process.env.twitter_consumer_secret as string,
+  callbackURL: 'http://localhost/auth/twitter/callback',
+}, (token, tokenSecret, profile, done) => {
+  done(null, profile)
+}))
+
 const router = Express.Router()
 router.use(cors())
 router.use(json())
@@ -53,7 +70,7 @@ const translator = async ({ text, target, source }: IBody): Promise<string> => {
     }))).data.translations[0].text
 }
 
-router.post('/translate', async (req, res, next) => {
+router.post('/translate', async (req, res) => {
   try {
     return res.send(JSON.stringify(await translator(req.body)))
   } catch (error) {
@@ -61,11 +78,10 @@ router.post('/translate', async (req, res, next) => {
   }
 })
 
-router.get('/*', async (req, res, next) => {
-  const { method, path, query } = req
-  return res.send(JSON.stringify({ method, path, query }))
-})
+router.get('/auth/twitter', passport.authenticate('twitter'))
+router.get('/auth/twitter/callback', passport.authenticate('twitter', { session: false }), async (req, res) => { res.json(req.user) })
 
 app.use('/', router)
+process.env.NODE_ENV === 'development' && app.listen(80, () => { console.log(`app listening at http://localhost`) })
 
 export default app

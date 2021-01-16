@@ -30,7 +30,22 @@
             }
         },
         {
-            "label": "Invoke Backend Express",
+            "label": "Run Backend Express Server locally",
+            "type": "shell",
+            "command": [
+                "export $(cat ${workspaceFolder}/.env | grep -v ^# | xargs)",
+                "&& export NODE_ENV=development",
+                "&& npx ts-node-dev --respawn app.ts"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/amplify/backend/function/ExpressFunction/src"
+            },
+            "dependsOn": [
+                "Build Backend Express"
+            ]
+        },
+        {
+            "label": "Invoke Backend Express Function locally",
             "type": "shell",
             "command": [
                 "amplify mock function ExpressFunction --event src/event.json"
