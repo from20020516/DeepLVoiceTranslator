@@ -1,0 +1,15 @@
+{
+  "production": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-deeplvoicetranslator-production-15001-authRole",
+      "UnauthRoleArn": "arn:aws:iam::492022549341:role/amplify-deeplvoicetranslator-production-15001-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::492022549341:role/amplify-deeplvoicetranslator-production-15001-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-deeplvoicetranslator-production-15001-deployment",
+      "UnauthRoleName": "amplify-deeplvoicetranslator-production-15001-unauthRole",
+      "StackName": "amplify-deeplvoicetranslator-production-15001",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:492022549341:stack/amplify-deeplvoicetranslator-production-15001/e2fe6950-581a-11eb-b399-0acb89b0ba98",
+      "AmplifyAppId": "d9cgt20zhgglh"
+    }
+  }
+}
