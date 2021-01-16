@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/",
+            "lambdaFunction": "Express",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/"
+        }
+    ],
+    "resourceName": "ExpressApi",
+    "apiName": "ExpressApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "Express"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-amplify63f48150b0554-staging-73118-authRole",
+        "unAuthRoleName": "amplify-amplify63f48150b0554-staging-73118-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "Express",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

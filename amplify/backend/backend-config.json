@@ -4,6 +4,11 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "Express": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "api": {
@@ -20,6 +25,21 @@
           ]
         }
       ]
+    },
+    "ExpressApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "Express",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
-  }
+  },
+  "auth": {}
 }

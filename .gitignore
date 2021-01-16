@@ -84,4 +84,4 @@ amplifytools.xcconfig
 
 # user definition
 .env
-amplify/backend/**/index.js
+amplify/backend/**/*.js

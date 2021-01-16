@@ -1,0 +1,11 @@
+{
+    "tasks": [
+        {
+            "label": "amplify",
+            "type": "shell",
+            "command": [
+                "npm install -g @aws-amplify/cli"
+            ]
+        }
+    ]
+}
