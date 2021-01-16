@@ -1,4 +1,16 @@
 {
+    "inputs": [
+        {
+            "id": "stage",
+            "type": "pickString",
+            "description": "deployment stage",
+            "default": "staging",
+            "options": [
+                "staging",
+                "production"
+            ]
+        }
+    ],
     "tasks": [
         {
             "label": "amplify",
@@ -6,6 +18,34 @@
             "command": [
                 "npm install -g @aws-amplify/cli"
             ]
-        }
+        },
+        {
+            "label": "Build Backend Express",
+            "type": "shell",
+            "command": [
+                "npm install"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/amplify/backend/function/ExpressFunction/src"
+            }
+        },
+        {
+            "label": "Invoke Backend Express",
+            "type": "shell",
+            "command": [
+                "amplify mock function ExpressFunction --event src/event.json"
+            ],
+            "dependsOn": [
+                "Build Backend Express"
+            ]
+        },
+        {
+            // TODO: refactoring in Jest.
+            "label": "Test Backend API",
+            "type": "shell",
+            "command": [
+                "curl -H 'content-type:application/json;charset=UTF-8' -d '{\"text\":\"おはようございます\",\"source\":\"JA\",\"target\":\"EN\"}' 'https://o5ryb7onb3.execute-api.ap-northeast-1.amazonaws.com/${input:stage}/translate'"
+            ],
+        },
     ]
 }
