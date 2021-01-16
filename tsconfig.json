@@ -10,7 +10,6 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "react-speech-recognition": ["types/react-speech-recognition"],
       "@env": ["types/@env"]
     },
     "typeRoots": ["types", "node_modules/@types"],
