@@ -6,6 +6,12 @@ import StoreProvider, { StoreContext } from './StoreProvider'
 import LanguageSwitcher from './LanguageSwitcher'
 import TranslateContainer from './TranslateContainer'
 
+declare global {
+  interface Window {
+    __REACT_DEVTOOLS_GLOBAL_HOOK__: any
+  }
+}
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -42,7 +48,7 @@ const App: FC = () =>
                 : <></>
               }
               rightComponent={state.login
-                ? <Avatar size='small' rounded source={{ uri: state.user?.photos[0].value }} />
+                ? <Avatar size='small' rounded source={{ uri: state.user?.photo }} />
                 : <Button title='Sign in' type='outline' buttonStyle={{ paddingVertical: 2, paddingHorizontal: 10 }} onPress={(event) => dispatch({ type: 'GET_LOGIN', event })} >SignIn</Button>
               }
             />

@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-deeplvoicetranslator-production-15001-deployment",
-          "S3Key": "amplify-builds/ExpressFunction-51437553463645377347-build.zip"
+          "S3Key": "amplify-builds/ExpressFunction-6c675755545779554838-build.zip"
         }
       }
     },

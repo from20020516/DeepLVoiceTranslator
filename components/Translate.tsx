@@ -1,8 +1,9 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import { Badge, Card, Text } from 'react-native-elements'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { api_endpoint } from '@env'
 import { View, TextInput } from 'react-native'
+import { StoreContext } from './StoreProvider'
 import axios from 'axios'
 
 const Translate = memo((props: { data: ITranslation }) => {
@@ -10,9 +11,18 @@ const Translate = memo((props: { data: ITranslation }) => {
   const [copied, setCopied] = useState<boolean>(false)
   const [sourceText, setSourceText] = useState<string>(text)
   const [targetText, setTargetText] = useState<string>('…')
+  const { state } = useContext(StoreContext)
 
+  // TODO: create AxiosProvider.
   const getTranslate = async () =>
-    setTargetText((await axios.post<string>(`${api_endpoint}/translate`, { text: sourceText, source, target })).data)
+    setTargetText((await axios.post<string>(`${api_endpoint}/translate`, { text: sourceText, source, target }, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${state.token}`,
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+    })).data)
 
   useEffect(() => {
     getTranslate()

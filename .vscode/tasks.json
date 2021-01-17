@@ -61,6 +61,6 @@
             "command": [
                 "curl -H 'content-type:application/json;charset=UTF-8' -d '{\"text\":\"おはようございます\",\"source\":\"JA\",\"target\":\"EN\"}' 'https://o5ryb7onb3.execute-api.ap-northeast-1.amazonaws.com/${input:stage}/translate'"
             ],
-        },
+        }
     ]
 }
