@@ -35,26 +35,13 @@ const openNewAuthWindow = async (url: string) => {
     const x = window.top.outerWidth / 2 + window.top.screenX - w / 2
     return `resizable=yes,width=${w},height=${h},left=${x},top=${y},toolbar=no,titlebar=no,menubar=no,scrollbars=no`
   }
-  const authWindow = (await window.open(url, 'socialLogin', windowCenteringPos(600, 500))) as Window
-  const authResult = await new Promise<any>((resolve, reject) => {
-    const listener = (message: MessageEvent) => {
-      // WARN: unsafe commented out.
-      // if (!message.origin.includes(`//${window.location.hostname}`)) reject('Origin Not Allowed.')
-      if (!String(message.data?.source).startsWith('react-devtools')) {
-        resolve(message.data as string)
-        authWindow.close()
-      }
-    }
-    const timer = setInterval(() => {
-      if (authWindow.closed) {
-        window.removeEventListener('message', listener)
-        clearInterval(timer)
-        reject('連携に失敗しました。')
-      }
-    }, 3000)
-    window.addEventListener('message', listener, false)
+  const authWindow = (await window.open(url, 'socialLogin', windowCenteringPos(700, 700))) as Window
+  return new Promise<string>((resolve, reject) => {
+    window.addEventListener('message', (message: MessageEvent<any>) => {
+      authWindow.close()
+      return typeof message.data === 'string' ? resolve(message.data) : reject(message)
+    }, { capture: true, once: true, passive: true })
   })
-  return authResult
 }
 
 const reducer: Reducer<State, Action> = (state, action) => {
