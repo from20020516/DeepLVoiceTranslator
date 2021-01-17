@@ -19,8 +19,7 @@ const Translate = memo((props: { data: ITranslation }) => {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${state.token}`,
-        'Content-Type': 'application/json;charset=UTF-8',
-        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json;charset=UTF-8'
       },
     })).data)
 
