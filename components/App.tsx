@@ -53,12 +53,12 @@ const App: FC = () =>
               }
             />
             <View style={styles.container}>
+              <Text h1>DeepL Translator</Text>
               {state.login ?
                 <>
                   <LanguageSwitcher />
                   <TranslateContainer />
                 </> : <>
-                  <Text h1>DeepL Translator</Text>
                   <SocialIcon button type='twitter' style={{ width: 300, height: 40, margin: 10 }} onPress={() => dispatch({ type: 'GET_LOGIN' })} title='Signin with Twitter' />
                 </>
               }
