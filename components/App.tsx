@@ -56,7 +56,7 @@ const App: FC = () =>
                   <SocialIcon button type='twitter' style={{ width: 300, height: 40, margin: 10 }} onPress={() => dispatch({ type: 'GET_LOGIN' })} title='Signin with Twitter' />
                 </>
               }
-              {window.__reactResponderSystemActive &&
+              {window.__REACT_DEVTOOLS_GLOBAL_HOOK__ &&
                 <Card containerStyle={{ width: '80%' }}>
                   <Card.Title>DEBUG: store</Card.Title>
                   <Text>{JSON.stringify(state, null, 2)}</Text>

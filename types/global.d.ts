@@ -10,7 +10,7 @@ interface ITranslation {
   target: string
 }
 interface Window {
-  __reactResponderSystemActive?: boolean
+  __REACT_DEVTOOLS_GLOBAL_HOOK__: any
 }
 type ITwitterUser = {
   id: string
