@@ -5,7 +5,7 @@ import { endpoint } from '@env'
 import { View, TextInput } from 'react-native'
 import axios from 'axios'
 
-const Translation = memo((props: { data: ITranslation }) => {
+const Translate = memo((props: { data: ITranslation }) => {
   const { source, target, text, time } = props.data
   const [copied, setCopied] = useState<boolean>(false)
   const [sourceText, setSourceText] = useState<string>(text)
@@ -45,4 +45,4 @@ const Translation = memo((props: { data: ITranslation }) => {
   )
 })
 
-export default Translation
+export default Translate

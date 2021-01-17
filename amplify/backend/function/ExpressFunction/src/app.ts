@@ -1,6 +1,6 @@
 import Express from 'express'
 import { json, urlencoded } from "body-parser"
-import { Strategy } from 'passport-twitter'
+import { Strategy, Profile } from 'passport-twitter'
 import axios from 'axios'
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -19,8 +19,8 @@ app.use(passport.session())
 passport.use(new Strategy({
   consumerKey: process.env.twitter_consumer_key as string,
   consumerSecret: process.env.twitter_consumer_secret as string,
-  callbackURL: 'http://localhost/auth/twitter/callback',
-}, (token, tokenSecret, profile, done) => {
+  callbackURL: `${process.env.twitter_callback_origin ?? 'http://localhost'}/auth/twitter/callback`,
+}, (token, tokenSecret, profile: Profile, done) => {
   done(null, profile)
 }))
 
@@ -79,7 +79,10 @@ router.post('/translate', async (req, res) => {
 })
 
 router.get('/auth/twitter', passport.authenticate('twitter'))
-router.get('/auth/twitter/callback', passport.authenticate('twitter', { session: false }), async (req, res) => { res.json(req.user) })
+router.get('/auth/twitter/callback', passport.authenticate('twitter', { session: false }), async (req, res) => {
+  res.type('html')
+  res.send(`<html><body><script>window.opener.postMessage(${JSON.stringify(req.user)},'*');</script></body></html>`)
+})
 
 app.use('/', router)
 process.env.NODE_ENV === 'development' && app.listen(80, () => { console.log(`app listening at http://localhost`) })
