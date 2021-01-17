@@ -41,7 +41,6 @@ const openNewAuthWindow = async (url: string) => {
       // WARN: unsafe commented out.
       // if (!message.origin.includes(`//${window.location.hostname}`)) reject('Origin Not Allowed.')
       if (!String(message.data?.source).startsWith('react-devtools')) {
-        console.log('message:', message)
         resolve(message.data as string)
         authWindow.close()
       }
@@ -59,7 +58,6 @@ const openNewAuthWindow = async (url: string) => {
 }
 
 const reducer: Reducer<State, Action> = (state, action) => {
-  console.log(action.type, action, state)
   switch (action.type) {
     case 'SET_LOGIN':
       const SET_LOGIN = { ...state, ...action, login: true, user: action.user }
