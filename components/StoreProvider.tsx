@@ -1,6 +1,7 @@
-import React, { createContext, Dispatch, FC, useEffect, Reducer } from 'react'
+import React, { createContext, Dispatch, FC, Reducer } from 'react'
 import { GestureResponderEvent } from 'react-native'
 import { useReducerAsync, AsyncActionHandlers } from 'use-reducer-async'
+import { twitter_callback_origin } from '@env'
 // import axios from 'axios'
 
 type AsyncAction = { type: 'GET_LOGIN', event?: GestureResponderEvent } | { type: 'GET_LOGOUT', event: GestureResponderEvent }
@@ -74,10 +75,8 @@ const reducer: Reducer<State, Action> = (state, action) => {
 const asyncActionHandlers: AsyncActionHandlers<Reducer<State, Action>, AsyncAction> = {
   GET_LOGIN: ({ dispatch }) => async (action) => {
     action.event?.preventDefault()
-    console.log(`${process.env.twitter_callback_origin ?? 'http://localhost'}/auth/twitter`)
     try {
-      const callback = await openNewAuthWindow(`${process.env.twitter_callback_origin ?? 'http://localhost'}/auth/twitter`)
-      console.log(callback)
+      const callback = await openNewAuthWindow(`${twitter_callback_origin}/auth/twitter`)
       dispatch({ type: 'SET_LOGIN', user: callback.user })
     } catch (error) {
       console.error(error)

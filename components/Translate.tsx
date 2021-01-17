@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Badge, Card, Text } from 'react-native-elements'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { endpoint } from '@env'
+import { api_endpoint } from '@env'
 import { View, TextInput } from 'react-native'
 import axios from 'axios'
 
@@ -12,7 +12,7 @@ const Translate = memo((props: { data: ITranslation }) => {
   const [targetText, setTargetText] = useState<string>('…')
 
   const getTranslate = async () =>
-    setTargetText((await axios.post<string>(`${endpoint}/translate`, { text: sourceText, source, target })).data)
+    setTargetText((await axios.post<string>(`${api_endpoint}/translate`, { text: sourceText, source, target })).data)
 
   useEffect(() => {
     getTranslate()
