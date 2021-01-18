@@ -9,3 +9,10 @@ interface ITranslation {
   source: string
   target: string
 }
+interface User {
+  id: string
+  username: string
+  photo?: string
+  iat: number
+  exp: number
+}

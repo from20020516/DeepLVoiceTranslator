@@ -8,13 +8,7 @@ import jwt_decode from "jwt-decode"
 type AsyncAction = { type: 'GET_LOGIN', event?: GestureResponderEvent } | { type: 'GET_LOGOUT', event: GestureResponderEvent }
 type Action = { type: 'SET_LOGIN', user?: any, token?: string } | { type: 'SET_LOGOUT' } | { type: 'SET_LANGUAGE', language: number[] }
 
-interface User {
-  iat: number
-  id: string
-  photo?: string
-  username: string
-}
-interface State {
+export interface State {
   type: string
   login: boolean
   language: number[]
@@ -47,11 +41,12 @@ const openNewAuthWindow = async (url: string) => {
 const reducer: Reducer<State, Action> = (state, action) => {
   switch (action.type) {
     case 'SET_LOGIN':
-      const SET_LOGIN = { ...state, ...action, login: true, user: action.user }
+      const SET_LOGIN = { ...state, ...action, login: true }
       localStorage.setItem('store', JSON.stringify(SET_LOGIN))
       return SET_LOGIN
     case 'SET_LOGOUT':
       const SET_LOGOUT = initialState
+      localStorage.setItem('store', JSON.stringify(SET_LOGOUT))
       return SET_LOGOUT
     case 'SET_LANGUAGE':
       const SET_LANGUAGE = { ...state, ...action }
@@ -67,7 +62,7 @@ const asyncActionHandlers: AsyncActionHandlers<Reducer<State, Action>, AsyncActi
     action.event?.preventDefault()
     try {
       const token = await openNewAuthWindow(`${twitter_callback_origin}/auth/twitter`)
-      const user = jwt_decode(token)
+      const user: User = jwt_decode(token)
       dispatch({ type: 'SET_LOGIN', user, token })
     } catch (error) {
       console.error(error)
@@ -75,7 +70,6 @@ const asyncActionHandlers: AsyncActionHandlers<Reducer<State, Action>, AsyncActi
   },
   GET_LOGOUT: ({ dispatch }) => async (action) => {
     action.event.preventDefault()
-    localStorage.clear()
     // TODO: disable server-side jwt
     dispatch({ type: 'SET_LOGOUT' })
   },
