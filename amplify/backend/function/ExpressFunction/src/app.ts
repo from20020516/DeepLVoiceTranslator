@@ -14,10 +14,11 @@ dotenv.config()
 const secret = process.env.app_secret as string
 
 const app = express()
+app.use(cors({ credentials: true, origin: true }))
 app.use(passport.initialize())
-app.use(session({ secret }))
+app.use(session({ secret, saveUninitialized: false, resave: false }))
 app.use(passport.session())
-app.use(jwt({ secret, algorithms: ['HS256'] }).unless({ path: ['/token', '/auth/twitter', '/auth/twitter/callback'] }))
+app.use(jwt({ secret, algorithms: ['HS256'] }).unless({ path: ['/token', '/auth/twitter', '/auth/twitter/callback'], method: ['OPTIONS'] }))
 
 passport.use(new Strategy({
   consumerKey: process.env.twitter_consumer_key as string,
@@ -28,10 +29,6 @@ passport.use(new Strategy({
 }))
 
 const router = express.Router()
-router.use(cors({
-  credentials: true,
-  origin: true
-}))
 router.use(json())
 router.use(urlencoded({ extended: true }))
 
