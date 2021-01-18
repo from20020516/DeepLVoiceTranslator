@@ -23,8 +23,8 @@ const AxiosProvider: FC = ({ children }) => {
   const { state, dispatch } = useContext(StoreContext)
   const useAxios = () => {
     const [connections, setConnections] = useState(0)
-    const inc = useCallback(() => setConnections((connections) => connections + 1), [setConnections])
-    const dec = useCallback(() => setConnections((connections) => connections - 1), [setConnections])
+    const inc = useCallback(() => setConnections((connections) => connections + 1), [])
+    const dec = useCallback(() => setConnections((connections) => connections - 1), [])
 
     const refreshToken = async (tokenExpired: string) => {
       try {
