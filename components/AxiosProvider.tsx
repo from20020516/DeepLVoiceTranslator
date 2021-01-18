@@ -18,11 +18,9 @@ export const axios = Axios.create({
 })
 
 const isTokenExpired = (exp?: number): boolean | undefined => exp ? Number(new Date()) > exp * 1000 : undefined
-const getStore = () => JSON.parse(localStorage.getItem('store') ?? '{}') as State | undefined
 
 const AxiosProvider: FC = ({ children }) => {
-  // WARN: DO NOT USE store state because exist cached value.
-  const { dispatch } = useContext(StoreContext)
+  const { state, dispatch } = useContext(StoreContext)
   const useAxios = () => {
     const [connections, setConnections] = useState(0)
     const inc = useCallback(() => setConnections((connections) => connections + 1), [setConnections])
@@ -49,8 +47,7 @@ const AxiosProvider: FC = ({ children }) => {
     const interceptors = useMemo(() => ({
       request: (config: AxiosRequestConfig) => {
         inc()
-        const token = getStore()?.token
-        if (token) config.headers['Authorization'] = `Bearer ${token}`
+        if (state.token) config.headers['Authorization'] = `Bearer ${state.token}`
         return config
       },
       response: (response: AxiosResponse) => {
@@ -63,7 +60,7 @@ const AxiosProvider: FC = ({ children }) => {
           // TODO: /auth/refresh
           // const original = error.config
           // if (isTokenExpired(state.user?.exp) && error.response?.status === 401 && original.headers.Authorization) {
-          //   const token = await refreshToken(state.token!)
+          //   const token = await refreshToken(String(original.headers.Authorization).split(' ')[1])
           //   original._retry = true
           //   original.headers['Authorization'] = `Bearer ${token}`
           //   console.log('REQUEST.RETRY:', original)
@@ -75,7 +72,7 @@ const AxiosProvider: FC = ({ children }) => {
           dispatch({ type: 'SET_LOGOUT' })
         }
       }
-    }), [inc, dec])
+    }), [inc, dec, state])
 
     useEffect(() => {
       const reqInterceptor = axios.interceptors.request.use(interceptors.request, interceptors.error)
