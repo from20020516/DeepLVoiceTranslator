@@ -21,18 +21,18 @@ export const styles = StyleSheet.create({
   },
 })
 export const languages: ILanguages[] = [
-  { language: "DE", name: "German" },
-  { language: "EN", name: "English" },
-  { language: "ES", name: "Spanish" },
-  { language: "FR", name: "French" },
-  { language: "IT", name: "Italian" },
-  { language: "JA", name: "Japanese" },
-  { language: "NL", name: "Dutch" },
-  { language: "PL", name: "Polish" },
-  { language: "PT", name: "Portuguese" },
-  { language: "RU", name: "Russian" },
-  { language: "ZH", name: "Chinese" },
-  { language: "KO", name: "Korean" }
+  { language: "DE", name: "German", flag: "🇩🇪" },
+  { language: "EN", name: "English", flag: "🇺🇸" },
+  { language: "ES", name: "Spanish", flag: "🇪🇸" },
+  { language: "FR", name: "French", flag: "🇫🇷" },
+  { language: "IT", name: "Italian", flag: "🇮🇹" },
+  { language: "JA", name: "Japanese", flag: "🇯🇵" },
+  { language: "NL", name: "Dutch", flag: "🇳🇱" },
+  { language: "PL", name: "Polish", flag: "🇵🇱" },
+  { language: "PT", name: "Portuguese", flag: "🇵🇹" },
+  { language: "RU", name: "Russian", flag: "🇷🇺" },
+  { language: "ZH", name: "Chinese", flag: "🇨🇳" },
+  { language: "KO", name: "Korean", flag: "🇰🇷" }
 ]
 
 const App: FC = () =>

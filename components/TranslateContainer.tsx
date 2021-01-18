@@ -19,8 +19,8 @@ const TranslateContainer: FC = () => {
               time: moment().format('HH:mm:ss'),
               timestamp: moment().unix(),
               text: command,
-              source: languages[state.language[0]].language,
-              target: languages[state.language[1]].language
+              source: languages[state.language[0]],
+              target: languages[state.language[1]]
             }, ...translation])
           }
         },

@@ -10,7 +10,8 @@ const Translate = memo((props: { data: ITranslation }) => {
   const [sourceText, setSourceText] = useState<string>(text)
   const [targetText, setTargetText] = useState<string>('…')
 
-  const getTranslate = async () => setTargetText((await axios.post<string>('/translate', { text: sourceText, source, target })).data)
+  const getTranslate = async () =>
+    setTargetText((await axios.post<string>('/translate', { text: sourceText, source: source.language, target: target.language })).data)
 
   useEffect(() => {
     getTranslate()
@@ -24,7 +25,7 @@ const Translate = memo((props: { data: ITranslation }) => {
   return (
     <View>
       <View>
-        <Text style={{ fontWeight: 'normal', paddingBottom: 2 }}>[ {time} ] {source} ▷ {target}</Text>
+        <Text style={{ fontWeight: 'normal', paddingBottom: 2 }}>[ {time} ] {source.flag} {target.flag}</Text>
         <TextInput value={sourceText} onChangeText={(e) => setSourceText(e)} onSubmitEditing={() => getTranslate()} />
         <CopyToClipboard text={targetText} onCopy={() => {
           setCopied(true)

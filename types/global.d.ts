@@ -1,13 +1,14 @@
 interface ILanguages {
   language: string
   name: string
+  flag: string
 }
 interface ITranslation {
   time: string
   timestamp: number
   text: string
-  source: string
-  target: string
+  source: ILanguages
+  target: ILanguages
 }
 interface User {
   id: string
