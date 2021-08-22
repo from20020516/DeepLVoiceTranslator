@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@react-native-picker/picker": "^1.9.10",
-    "aws-amplify": "^3.3.14",
+    "aws-amplify": "^4.0.0",
     "aws-amplify-react-native": "^4.3.0",
     "axios": "^0.21.1",
     "babel-plugin-dotenv-import": "^2.1.0",
