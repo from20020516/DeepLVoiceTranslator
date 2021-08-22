@@ -1,0 +1,65 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "packageRules": [
+    {
+      "groupName": "aws-sdk",
+      "matchPackagePrefixes": [
+        "@types/aws-",
+        "aws-sdk",
+        "aws-amplify"
+      ],
+      "automerge": true,
+      "requiredStatusChecks": null
+    },
+    {
+      "groupName": "aws-cdk",
+      "matchPackagePatterns": [
+        "aws-cdk",
+        "^esbuild"
+      ],
+      "automerge": true,
+      "requiredStatusChecks": null
+    },
+    {
+      "groupName": "jest",
+      "matchPackagePatterns": [
+        "^@types/jest"
+      ],
+      "matchSourceUrlPrefixes": [
+        "https://github.com/facebook/jest",
+        "https://github.com/kulshekhar/ts-jest"
+      ],
+      "automerge": true,
+      "requiredStatusChecks": null
+    },
+    {
+      "groupName": "react-expo",
+      "matchPackagePatterns": [
+        "react",
+        "expo"
+      ],
+      "ignoreDeps": [
+        "expo",
+        "react-native",
+        "@types/react-native"
+      ],
+      "automerge": true,
+      "requiredStatusChecks": null
+    },
+    {
+      "groupName": "misc",
+      "matchPackageNames": [
+        "@types/node",
+        "typescript",
+        "ts-node"
+      ],
+      "automerge": true,
+      "requiredStatusChecks": null
+    }
+  ]
+}
