@@ -10,7 +10,7 @@
   "dependencies": {
     "@react-native-picker/picker": "^2.0.0",
     "aws-amplify": "^4.0.0",
-    "aws-amplify-react-native": "^5.0.0",
+    "aws-amplify-react-native": "^6.0.0",
     "axios": "^0.21.1",
     "babel-plugin-dotenv-import": "^2.1.0",
     "expo": "~40.0.0",
