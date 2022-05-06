@@ -32,7 +32,7 @@
     "use-reducer-async": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0",
+    "@babel/core": "~7.17.0",
     "@types/react": "~18.0.0",
     "@types/react-copy-to-clipboard": "^5.0.0",
     "@types/react-dom": "~18.0.0",
