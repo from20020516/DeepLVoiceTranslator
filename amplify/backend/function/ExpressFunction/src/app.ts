@@ -14,7 +14,7 @@ dotenv.config()
 const secret = process.env.app_secret as string
 
 const app = express()
-app.use(cors({ credentials: true, origin: true }))
+app.use(cors({ credentials: true, origin: [/^https:\/\/[a-z0-9\.]+amplifyapp\.com$/] }))
 app.use(passport.initialize())
 app.use(session({ secret, saveUninitialized: false, resave: false }))
 app.use(passport.session())
