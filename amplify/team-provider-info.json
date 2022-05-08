@@ -1,15 +1,23 @@
 {
-  "production": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-deeplvoicetranslator-production-15001-authRole",
-      "UnauthRoleArn": "arn:aws:iam::492022549341:role/amplify-deeplvoicetranslator-production-15001-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::492022549341:role/amplify-deeplvoicetranslator-production-15001-authRole",
+      "AuthRoleName": "amplify-deeplvoicetranslator-dev-161738-authRole",
+      "UnauthRoleArn": "arn:aws:iam::492022549341:role/amplify-deeplvoicetranslator-dev-161738-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::492022549341:role/amplify-deeplvoicetranslator-dev-161738-authRole",
       "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-deeplvoicetranslator-production-15001-deployment",
-      "UnauthRoleName": "amplify-deeplvoicetranslator-production-15001-unauthRole",
-      "StackName": "amplify-deeplvoicetranslator-production-15001",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:492022549341:stack/amplify-deeplvoicetranslator-production-15001/e2fe6950-581a-11eb-b399-0acb89b0ba98",
-      "AmplifyAppId": "d9cgt20zhgglh"
+      "DeploymentBucketName": "amplify-deeplvoicetranslator-dev-161738-deployment",
+      "UnauthRoleName": "amplify-deeplvoicetranslator-dev-161738-unauthRole",
+      "StackName": "amplify-deeplvoicetranslator-dev-161738",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:492022549341:stack/amplify-deeplvoicetranslator-dev-161738/f1eb3140-ce9e-11ec-af8a-0a4c6d688847",
+      "AmplifyAppId": "d30wcv9u61kip9"
+    },
+    "categories": {
+      "function": {
+        "ExpressFunction": {
+          "deploymentBucketName": "amplify-deeplvoicetranslator-dev-161738-deployment",
+          "s3Key": "amplify-builds/ExpressFunction-3375646d444c71366c42-build.zip"
+        }
+      }
     }
   }
 }
