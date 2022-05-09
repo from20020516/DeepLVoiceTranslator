@@ -2,23 +2,24 @@ import express from 'express'
 import { json, urlencoded } from "body-parser"
 import { Strategy, Profile } from 'passport-twitter'
 import axios from 'axios'
-import cors from 'cors'
 import dotenv from 'dotenv'
-import jwt from 'express-jwt'
+import cors from 'cors'
+import { expressjwt } from "express-jwt";
 import passport from 'passport'
 import querystring from 'querystring'
 import session from 'express-session'
 import token from 'jsonwebtoken'
+import serverlessExpress from '@vendia/serverless-express'
 
 dotenv.config()
-const secret = process.env.app_secret as string
+const secret = process.env.app_secret!
 
-const app = express()
-app.use(cors({ credentials: true, origin: [/^https:\/\/[a-z0-9\.]+amplifyapp\.com$/] }))
+export const app = express()
+app.use(cors({ credentials: true, origin: [/^https:\/\/[a-z0-9\.]+amplifyapp\.com$/, /^https?:\/\/localhost\:?[0-9]{0,5}$/] }))
 app.use(passport.initialize())
 app.use(session({ secret, saveUninitialized: false, resave: false }))
 app.use(passport.session())
-app.use(jwt({ secret, algorithms: ['HS256'] }).unless({ path: ['/token', '/auth/twitter', '/auth/twitter/callback'], method: ['OPTIONS'] }))
+app.use(expressjwt({ secret, algorithms: ['HS256'] }).unless({ path: ['/token', '/auth/twitter', '/auth/twitter/callback'], method: ['GET', 'OPTIONS'] }))
 
 passport.use(new Strategy({
   consumerKey: process.env.twitter_consumer_key as string,
@@ -62,11 +63,11 @@ const translator = async ({ text, target, source }: IBody): Promise<string> => {
       source: String(source).toLowerCase()
     }), {
       headers: {
-        'X-Naver-Client-Id': process.env.naver_client_id,
-        'X-Naver-Client-Secret': process.env.naver_client_secret
+        'X-Naver-Client-Id': process.env.naver_client_id!,
+        'X-Naver-Client-Secret': process.env.naver_client_secret!
       }
     })).data.message.result.translatedText
-    : (await axios.post<IDeepLResponse>('https://api.deepl.com/v2/translate', querystring.stringify({
+    : (await axios.post<IDeepLResponse>('https://api-free.deepl.com/v2/translate', querystring.stringify({
       auth_key: process.env.auth_key,
       text: text,
       target_lang: target,
@@ -96,4 +97,4 @@ router.get('/auth/twitter/callback', passport.authenticate('twitter', { session:
 app.use('/', router)
 process.env.NODE_ENV === 'development' && app.listen(80, () => { console.log(`app listening at http://localhost`) })
 
-export default app
+export const handler: any = serverlessExpress({ app })

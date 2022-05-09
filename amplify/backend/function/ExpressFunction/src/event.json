@@ -1,8 +1,0 @@
-{
-  "path": "/translate",
-  "httpMethod": "POST",
-  "headers": {
-    "content-type": "application/json;charset=UTF-8"
-  },
-  "body": "{\"text\":\"おはようございます\",\"source\":\"JA\",\"target\":\"EN\"}"
-}

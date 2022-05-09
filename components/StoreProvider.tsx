@@ -25,8 +25,8 @@ export const StoreContext = createContext({} as StoreContextState)
 
 const openNewAuthWindow = async (url: string) => {
   const windowCenteringPos = (w: number, h: number) => {
-    const y = window.top.outerHeight / 2 + window.top.screenY - h / 2
-    const x = window.top.outerWidth / 2 + window.top.screenX - w / 2
+    const y = window.top!.outerHeight / 2 + window.top!.screenY - h / 2
+    const x = window.top!.outerWidth / 2 + window.top!.screenX - w / 2
     return `resizable=yes,width=${w},height=${h},left=${x},top=${y},toolbar=no,titlebar=no,menubar=no,scrollbars=no`
   }
   const authWindow = (await window.open(url, 'socialLogin', windowCenteringPos(700, 700))) as Window
